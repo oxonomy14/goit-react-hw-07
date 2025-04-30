@@ -1,0 +1,17 @@
+.contactList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.titleContactList {
+  font-weight: 600;
+  font-size: 48px;
+  text-align: left;
+  align-items: center;
+  display: flex;
+}
+
+.icon {
+  margin-right: 4px;
+}
