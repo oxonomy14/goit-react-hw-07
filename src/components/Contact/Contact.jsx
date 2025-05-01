@@ -3,7 +3,8 @@ import { GrUserManager } from "react-icons/gr";
 import { MdOutlineContactPhone } from "react-icons/md";
 
 import { useDispatch } from "react-redux";
-import { deleteContact } from "../../redux/contactsSlice";
+//import { deleteContact } from "../../redux/contactsSlice";
+import { deleteContact } from "../../redux/contacts0ps";
 
 const Contact = ({ item }) => {
   const dispatch = useDispatch();

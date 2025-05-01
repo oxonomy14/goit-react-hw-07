@@ -6,6 +6,8 @@ import { useSelector } from "react-redux";
 const ContactList = () => {
   const contacts = useSelector((state) => state.contactList.contacts.items);
   const filter = useSelector((state) => state.filters.name);
+  const error = useSelector((state) => state.contactList.contacts.error);
+  const loading = useSelector((state) => state.contactList.contacts.loading);
 
   // Фільтрація контактів по імені
   const filteredContacts = contacts.filter((item) =>
@@ -24,6 +26,8 @@ const ContactList = () => {
             <Contact key={item.id} item={item} />
           ))}
         </ul>
+        {loading && <h2>Loading...</h2>}
+        {error && <h2>Server is dead...</h2>}
       </div>
     </>
   );
