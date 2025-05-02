@@ -45,7 +45,7 @@ const ContactList = () => {
 
         {!loading &&
           !error &&
-          (filteredContacts.length > 0 ? (
+          (contacts.length > 0 ? (
             <ul className={css.contactList}>
               {contacts.map((item) => (
                 <Contact key={item.id} item={item} />
