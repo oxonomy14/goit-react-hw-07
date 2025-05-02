@@ -1,5 +1,6 @@
-import { createSlice, isAnyOf } from "@reduxjs/toolkit";
+import { createSlice, isAnyOf, createSelector } from "@reduxjs/toolkit";
 import { fetchContacts, deleteContact, addContact } from "./contacts0ps";
+import { selectNameFilter } from "./filterSlice";
 
 const initialState = {
   contacts: {
@@ -8,6 +9,19 @@ const initialState = {
     error: null,
   },
 };
+
+export const selectContacts = (state) => state.contactList.contacts.items;
+export const selectLoading = (state) => state.contactList.contacts.loading;
+export const selectError = (state) => state.contactList.contacts.error;
+
+export const selectFilteredContacts = createSelector(
+  [selectContacts, selectNameFilter],
+  (contacts, name) => {
+    return contacts.filter((item) =>
+      item.name.toLowerCase().includes(name.toLowerCase())
+    );
+  }
+);
 
 const slice = createSlice({
   name: "contactList",
@@ -37,7 +51,7 @@ const slice = createSlice({
           fetchContacts.rejected
         ),
         (state, action) => {
-          state.error = action.payload;
+          state.contacts.error = action.payload;
         }
       )
       .addMatcher(
@@ -47,8 +61,8 @@ const slice = createSlice({
           fetchContacts.pending
         ),
         (state, action) => {
-          state.error = null;
-          state.loading = true;
+          state.contacts.error = null;
+          state.contacts.loading = true;
         }
       )
       .addMatcher(
@@ -58,7 +72,7 @@ const slice = createSlice({
           fetchContacts.fulfilled
         ),
         (state, action) => {
-          state.loading = false;
+          state.contacts.loading = false;
         }
       );
   },

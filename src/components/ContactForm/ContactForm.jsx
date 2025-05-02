@@ -3,10 +3,12 @@ import { useId } from "react";
 import * as Yup from "yup";
 
 import css from "./ContactForm.module.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 //import { addContact } from "../../redux/contactsSlice";
 import { nanoid } from "@reduxjs/toolkit";
 import { addContact } from "../../redux/contacts0ps";
+import { selectContacts } from "../../redux/contactsSlice";
+import toast from "react-hot-toast";
 
 const initialValues = {
   name: "",
@@ -30,14 +32,30 @@ const ContactForm = () => {
   const nameFieldId = useId();
   const numberFieldId = useId();
 
+  const contacts = useSelector(selectContacts);
+
   const dispatch = useDispatch();
-  const handleAddContact = (data) => {
+
+  const handleAddContact = (values) => {
+    if (compareContact(values.name)) {
+      toast.error("Така назва вже є");
+      return;
+    }
     const newContact = {
-      id: nanoid(),
-      name: data.name,
-      number: data.number,
+      // id: nanoid(),
+      name: values.name,
+      number: values.number,
     };
     dispatch(addContact(newContact));
+  };
+
+  //  Функція перевірки унікальності todo
+
+  const compareContact = (name) => {
+    const compare = contacts.some(
+      (item) => item.name.toLowerCase() === name.toLowerCase()
+    );
+    return compare;
   };
 
   return (
@@ -58,7 +76,7 @@ const ContactForm = () => {
               name="name"
               id={nameFieldId}
               placeholder="Andrii Semenenko"
-            />{" "}
+            />
           </div>
           <ErrorMessage name="name" component="div" className={css.error} />
 
@@ -77,7 +95,7 @@ const ContactForm = () => {
           <ErrorMessage name="number" component="div" className={css.error} />
           <div className={css.btnbox}>
             <button type="submit" className={css.btn}>
-              Add contact
+              ADD CONTACT
             </button>
           </div>
         </Form>

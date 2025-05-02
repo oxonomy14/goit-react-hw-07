@@ -2,17 +2,28 @@ import Contact from "../Contact/Contact";
 import css from "./ContactList.module.css";
 import { RiContactsBookLine } from "react-icons/ri";
 import { useSelector } from "react-redux";
+import {
+  selectContacts,
+  selectLoading,
+  selectError,
+  selectFilteredContacts,
+} from "../../redux/contactsSlice";
+import { selectNameFilter } from "../../redux/filterSlice";
+
+import { BarLoader } from "react-spinners";
+import toast from "react-hot-toast";
 
 const ContactList = () => {
-  const contacts = useSelector((state) => state.contactList.contacts.items);
-  const filter = useSelector((state) => state.filters.name);
-  const error = useSelector((state) => state.contactList.contacts.error);
-  const loading = useSelector((state) => state.contactList.contacts.loading);
+  //const contacts = useSelector(selectContacts);
+  const contacts = useSelector(selectFilteredContacts);
+  const filter = useSelector(selectNameFilter);
+  const error = useSelector(selectError);
+  const loading = useSelector(selectLoading);
 
   // Фільтрація контактів по імені
-  const filteredContacts = contacts.filter((item) =>
-    item.name.toLowerCase().includes(filter.toLowerCase())
-  );
+  //const filteredContacts = contacts.filter((item) =>
+  // item.name.toLowerCase().includes(filter.toLowerCase())
+  // );
 
   return (
     <>
@@ -21,13 +32,28 @@ const ContactList = () => {
           <RiContactsBookLine size={48} className={css.icon} />
           My Contacts List
         </h2>
-        <ul className={css.contactList}>
-          {filteredContacts.map((item) => (
-            <Contact key={item.id} item={item} />
-          ))}
-        </ul>
-        {loading && <h2>Loading...</h2>}
+        {loading && (
+          <BarLoader
+            cssOverride={{
+              display: "block",
+              margin: "15px auto",
+            }}
+            color="red"
+          />
+        )}
         {error && <h2>Server is dead...</h2>}
+
+        {!loading &&
+          !error &&
+          (filteredContacts.length > 0 ? (
+            <ul className={css.contactList}>
+              {contacts.map((item) => (
+                <Contact key={item.id} item={item} />
+              ))}
+            </ul>
+          ) : (
+            <p>No contacts match your search</p>
+          ))}
       </div>
     </>
   );
