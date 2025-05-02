@@ -6,7 +6,7 @@ import css from "./ContactForm.module.css";
 import { useDispatch, useSelector } from "react-redux";
 //import { addContact } from "../../redux/contactsSlice";
 import { nanoid } from "@reduxjs/toolkit";
-import { addContact } from "../../redux/contacts0ps";
+import { addContact } from "../../redux/contactsOps";
 import { selectContacts } from "../../redux/contactsSlice";
 import toast from "react-hot-toast";
 

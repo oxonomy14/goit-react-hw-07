@@ -4,7 +4,7 @@ import { MdOutlineContactPhone } from "react-icons/md";
 
 import { useDispatch } from "react-redux";
 //import { deleteContact } from "../../redux/contactsSlice";
-import { deleteContact } from "../../redux/contacts0ps";
+import { deleteContact } from "../../redux/contactsOps";
 
 const Contact = ({ item }) => {
   const dispatch = useDispatch();
